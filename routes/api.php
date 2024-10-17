@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::apiResource('funcionario', FuncionarioController::class);
+// Route::get('funcionario/search', [FuncionarioController::class, 'search']);
 
 Route::apiResource('empresas', EmpresaController::class);
 // Route::post('eempresas', [EmpresaController::class, "store"] );

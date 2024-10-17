@@ -21,7 +21,7 @@ class EmpresaResource extends JsonResource
             'endereco' => $this->endereco,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'funcionarios' => FuncionarioResource::collection($this->whenLoaded('funcionarios')),
+            'funcionarios' => FuncionarioResource::collection($this->whenLoaded('funcionarios')), // metod para verificar se o dado já foi carregado
         ];
     }
 }
