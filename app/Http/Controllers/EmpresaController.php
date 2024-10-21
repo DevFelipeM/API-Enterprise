@@ -6,6 +6,7 @@ use App\Models\Empresa;
 use App\Http\Resources\EmpresaResource;
 use App\Http\Requests\StoreEmpresaRequest;
 use App\Http\Requests\UpdateEmpresaRequest;
+use App\Http\Resources\EmpresaFuncionarioResource;
 use Illuminate\Http\JsonResponse;
 
 
@@ -13,9 +14,9 @@ class EmpresaController extends Controller
 { 
    public function index()
     {
-        $empresa = Empresa::query()->orderBy()->paginate(5);
+        $empresa = Empresa::with('funcionarios')->paginate(5);
 
-        return response()->json(EmpresaResource::collection($empresa)->response()->getData(true), 200);
+        return response()->json(EmpresaFuncionarioResource::collection($empresa)->response()->getData(true), 200);
     }
 
     public function store(StoreEmpresaRequest $request)

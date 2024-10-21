@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empresas'); // Remove a tabela se necessário
+        Schema::dropIfExists('empresas'); 
     }
 };

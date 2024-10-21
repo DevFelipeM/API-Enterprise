@@ -16,9 +16,9 @@ class FuncionarioController extends Controller
 { 
     public function index()
     {
-        $funcionario = Funcionario::paginate(5);
+        $funcionario = Funcionario::query()->paginate(5);
         
-        return response()->json(FuncionarioResource::collection($funcionario));
+        return response()->json(FuncionarioResource::collection($funcionario)->response()->getData(true), 200);
     }
 
     public function store(StoreFuncionarioRequest $request)
@@ -49,8 +49,8 @@ class FuncionarioController extends Controller
     public function update(UpdateFuncionarioRequest $request, int $id)
     {
         $funcionario = Funcionario::findOrFail($id);
-        $isUpdated = $funcionario->update($request->validate());
-        return response()->json(EmpresaResource::make($funcionario), 200); 
+        $isUpdated = $funcionario->update($request->validated());
+        return response()->json(FuncionarioResource::make($funcionario), 200); 
     }
 
     public function destroy(int $id): JsonResponse

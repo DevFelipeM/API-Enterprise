@@ -50,23 +50,23 @@ class StoreUpdateRequestsTest extends TestCase
     public function testUpdateFuncionarioRequestValidation()
     {
         $empresa = Empresa::create([
-            'nome' => 'Empresa Teste',
-            'cnpj' => '12345678000199',
+            'nome' => 'Empresa do sexo',
+            'cnpj' => '12345678696969',
             'endereco' => 'Endereço Teste',
         ]);
 
         $funcionario = Funcionario::create([
             'nome' => 'Funcionario Teste',
-            'cpf' => '12345678901',
+            'cpf' => '69695678901',
             'empresa_id' => $empresa->id,
-            'cargo' => 'Desenvolvedor'
+            'cargo' => 'Bolsominion'
         ]);
 
         $data = [
             'nome' => 'Funcionario Atualizado',
             'cpf' => '12345678902',
             'empresa_id' => $empresa->id,
-            'cargo' => 'Gerente'
+            'cargo' => 'Petista'
         ];
 
         // Act
@@ -74,12 +74,12 @@ class StoreUpdateRequestsTest extends TestCase
         $validator = Validator::make($data, $request->rules());
 
         // Assert
-        $this->assertFalse($validator->fails()); // Verifica se não falha
+        $this->assertFalse($validator->fails()); 
 
         // Testar com dados inválidos
         $dataInvalid = [
             'nome' => '', 
-            'cpf' => '123', 
+            'cpf' => '321', 
             'empresa_id' => 9999, 
             'cargo' => '' 
         ];

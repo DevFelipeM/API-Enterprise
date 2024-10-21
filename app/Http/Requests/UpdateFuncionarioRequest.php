@@ -22,10 +22,17 @@ class UpdateFuncionarioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'nullable|string|max:255', 
-            'email' => 'nullable|email|unique:funcionarios,email,' . $this->route('funcionario'), 
-            'telefone' => 'nullable|string|max:15', 
-            'empresa_id' => 'nullable|exists:empresas,id', 
+            'nome' => 'nullable|string|max:255',
+            'empresa_id' => 'nullable|exists:empresas,id',
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'nome.string' => 'O nome deve ser uma string.',
+            'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
+
+            'empresa_id.exists' => 'O ID da empresa não foi encontrado.',
         ];
     }
 }

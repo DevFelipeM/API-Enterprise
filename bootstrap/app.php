@@ -66,7 +66,7 @@ return Application::configure(basePath: dirname(__DIR__))
             $httpCode = Response::HTTP_NOT_FOUND;
 
             $title = 'Recurso não encontrado!';
-            $details = ['message' => 'Id de funcionário não encontrado: '];
+            $details = ['message' => 'Requisição não encontrada '];
 
 
 

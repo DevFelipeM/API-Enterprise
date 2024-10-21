@@ -11,7 +11,7 @@ class StoreEmpresaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true; 
+        return true;
     }
 
     /**
@@ -22,9 +22,25 @@ class StoreEmpresaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => 'required|string|max:255', 
+            'nome' => 'required|string|max:255',
             'cnpj' => 'required|string|size:14|unique:empresas,cnpj',
-            'endereco' => 'nullable|string|max:255', 
+            'endereco' => 'nullable|string|max:255',
+        ];
+    }
+    public function messages(): array
+    {
+        return [
+            'nome.required' => 'O nome é obrigatório.',
+            'nome.string' => 'O nome deve ser uma string.',
+            'nome.max' => 'O nome não pode ter mais de 255 caracteres.',
+
+            'cnpj.required' => 'O CNPJ é obrigatório.',
+            'cnpj.string' => 'O CNPJ deve ser uma string.',
+            'cnpj.size' => 'O CNPJ deve ter 14 caracteres.',
+            'cnpj.unique' => 'O CNPJ já está em uso.',
+
+            'endereco.string' => 'O endereço deve ser uma string.',
+            'endereco.max' => 'O endereço não pode ter mais de 255 caracteres.',
         ];
     }
 }
