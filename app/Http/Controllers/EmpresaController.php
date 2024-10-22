@@ -21,6 +21,7 @@ class EmpresaController extends Controller
 
     public function store(StoreEmpresaRequest $request)
     {
+        
         $empresa = Empresa::create($request->validated()); 
 
         return response()->json(EmpresaResource::make($empresa), 201); 

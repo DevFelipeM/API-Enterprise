@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nome');
             $table->string('cpf')->unique();
             $table->string('cargo');
-            $table->foreignId('empresa_id')->constrained('empresas')->onDelete('cascade'); // Chave estrangeira
+            $table->foreignId('empresa_id')->constrained('empresas')->onDelete('cascade'); 
             $table->timestamps();
             $table->softDeletes();
         });

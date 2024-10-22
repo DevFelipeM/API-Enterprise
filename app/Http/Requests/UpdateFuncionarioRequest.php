@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CpfValidator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateFuncionarioRequest extends FormRequest
@@ -23,6 +24,10 @@ class UpdateFuncionarioRequest extends FormRequest
     {
         return [
             'nome' => 'nullable|string|max:255',
+            'cpf' => [
+                'string',
+                new CpfValidator()
+            ],
             'empresa_id' => 'nullable|exists:empresas,id',
         ];
     }

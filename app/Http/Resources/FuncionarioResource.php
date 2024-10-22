@@ -19,7 +19,9 @@ class FuncionarioResource extends JsonResource
             'nome' => $this->nome,
             'cpf' => $this->cpf,
             'cargo' => $this->cargo,
-            'empresa_nome' => $this->empresa->nome,
+            'dataDeNascimento' => $this->dataDeNascimento,
+            'file' => $this->file,
+            'empresa_nome' => $this->empresa->nome ?? null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CpfValidator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreFuncionarioRequest extends FormRequest
@@ -23,7 +24,13 @@ class StoreFuncionarioRequest extends FormRequest
     {
         return [      
             'nome' => 'required|string|max:255', 
-            'cpf' => 'required|string|size:11|unique:funcionarios,cpf', 
+            'cpf' => [
+                'required',
+                'string',
+                new CpfValidator()
+            ],
+            'file' => 'nullable|string|mimes:jpeg,png,jpg|max:2048',
+            'dataDeNascimento' => 'nullable|string|max:20',
             'empresa_id' => 'required|exists:empresas,id', 
             'cargo' => 'required|string|max:255', 
         ];

@@ -16,6 +16,8 @@ class Funcionario extends Model
         'cpf',
         'empresa_id',
         'cargo',
+        'file',
+        'dataDeNascimento'
     ];
 
     public function empresa()

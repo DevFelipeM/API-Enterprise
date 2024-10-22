@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('empresas', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('nome'); 
-            $table->string('cnpj')->unique(); 
-            $table->string('endereco'); 
-            $table->timestamps(); 
-            $table->softDeletes();
+        Schema::table('empresas', function (Blueprint $table) {
+            $table->dropColumn('endereco');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('empresas'); 
+        Schema::table('empresas', function (Blueprint $table) {
+            //
+        });
     }
 };

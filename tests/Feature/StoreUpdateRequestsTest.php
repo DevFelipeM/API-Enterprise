@@ -20,7 +20,6 @@ class StoreUpdateRequestsTest extends TestCase
         $empresa = Empresa::create([
             'nome' => 'Empresa Teste',
             'cnpj' => '12345678000199',
-            'endereco' => 'Endereço Teste',
         ]);
 
         $data = [
@@ -52,7 +51,6 @@ class StoreUpdateRequestsTest extends TestCase
         $empresa = Empresa::create([
             'nome' => 'Empresa do sexo',
             'cnpj' => '12345678696969',
-            'endereco' => 'Endereço Teste',
         ]);
 
         $funcionario = Funcionario::create([

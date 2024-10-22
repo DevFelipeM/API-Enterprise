@@ -13,11 +13,23 @@ class Empresa extends Model
     protected $fillable = [
         'nome',
         'cnpj',
-        'endereco',
     ];
 
     public function funcionarios()
     {
         return $this->hasMany(Funcionario::class, 'empresa_id', 'id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($empresa) {
+
+            foreach ($empresa->funcionarios as $funcionario) {
+                $funcionario->empresa_id = null; 
+                $funcionario->save(); 
+                
+            }
+        });
     }
 }

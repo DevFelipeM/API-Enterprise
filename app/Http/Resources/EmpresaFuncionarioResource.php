@@ -17,12 +17,13 @@ class EmpresaFuncionarioResource extends JsonResource
             'id' => $this->id,
             'nome' => $this->nome,
             'cnpj' => $this->cnpj,
-            'endereco' => $this->endereco,
             'funcionario' => $this->funcionarios()->get()->map(function($funcionario){   //get retornando collection
                 return [
                     'id' => $funcionario->id,
                     'nome' => $funcionario->nome,
                     'cargo' => $funcionario->cargo,
+                    'dataDeNascimento' => $funcionario->dataDeNascimento,
+                    'file' => $funcionario->file,
                 ];
             }),
             'created_at' => $this->created_at,
