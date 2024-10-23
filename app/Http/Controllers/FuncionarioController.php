@@ -7,6 +7,8 @@ use App\Http\Requests\StoreFuncionarioRequest;
 use App\Http\Requests\UpdateFuncionarioRequest;
 use App\Http\Resources\EmpresaResource;
 use App\Http\Resources\FuncionarioResource;
+use Error;
+use Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -28,16 +30,18 @@ class FuncionarioController extends Controller
 
         $data = $request->validated();
 
-        // Verifica se o CPF já existe
-        if (Funcionario::where('cpf', $data['cpf'])->exists()) {
-            return response()->json(['message' => 'CPF já está cadastrado.'], 400);
-        }
 
-        if ($request->hasFile('file')) {
+        try {
             $file = $request->file('file');
-            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('public/fotos', $filename);
-            $data['file'] = $filename;
+            if (empty($file)) {
+                throw new Exception('Nenhum arquivo foi enviado.');
+            }
+            // $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            // $path = $file->storeAs('fotos', 'public', $filename);
+            $path = $file->store('fotos', 'public');
+            $data['file'] = $path;
+        } catch (Exception $error) {
+            return response()->json(['error' => $error->getMessage()]);
         }
 
         $funcionario = Funcionario::create($data);

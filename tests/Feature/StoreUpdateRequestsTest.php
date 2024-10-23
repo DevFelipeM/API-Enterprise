@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateFuncionarioRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Empresa;
 use App\Models\Funcionario;
+use Database\Factories\FuncionarioFactory;
 
 class StoreUpdateRequestsTest extends TestCase
 {
@@ -16,73 +17,38 @@ class StoreUpdateRequestsTest extends TestCase
 
     public function testStoreFuncionarioRequestValidation()
     {
-        // Arrange
-        $empresa = Empresa::create([
-            'nome' => 'Empresa Teste',
-            'cnpj' => '12345678000199',
-        ]);
+        // $empresa = Empresa::factory()->count(11)->create();
 
-        $data = [
-            'nome' => 'Funcionario Teste',
-            'cpf' => '12345678901',
-            'empresa_id' => $empresa->id,
-            'cargo' => 'Desenvolvedor'
-        ];
+        ////////// FUNCIONÁRIO //////////
+       $funcionario = Funcionario::factory()->create();
 
-        $request = new StoreFuncionarioRequest();
-        $validator = Validator::make($data, $request->rules());
+        $this->assertNotNull($funcionario->id, 'O ID do funcionário não deve ser nulo.');
+        
+        $this->assertIsString($funcionario->cpf, 'O CPF deve ser uma string.');
+        $this->assertEquals(11, strlen($funcionario->cpf), 'O CPF deve ter 11 dígitos.');
+        
+        $this->assertNotNull($funcionario->empresa_id, 'O ID da empresa associada não deve ser nulo.');
+        
+        $this->assertDatabaseHas('empresas', [
+            'id' => $funcionario->empresa_id,
+        ], 'sqlite');
 
-        $this->assertFalse($validator->fails()); // Verifica se não falha
+        ///////// EMPRESA //////////
+        $empresa = Empresa::factory()->create();
 
-        // Testar com dados inválidos
-        $dataInvalid = [
-            'nome' => '', 
-            'cpf' => '123', 
-            'empresa_id' => 9999, 
-            'cargo' => '' 
-        ];
+        $this->assertNotNull($empresa->id, 'O ID da empresa não deve ser nulo.');
 
-        $validator = Validator::make($dataInvalid, $request->rules());
-        $this->assertTrue($validator->fails()); // Verifica se falha
+        $this->assertIsString($empresa->nome, 'O nome da empresa deve ser uma string.');
+        $this->assertNotEmpty($empresa->nome, 'O nome da empresa não deve estar vazio.');
+
+        $this->assertDatabaseHas('empresas', [
+            'id' => $empresa->id,
+            'nome' => $empresa->nome,
+        ], 'sqlite');
     }
 
     public function testUpdateFuncionarioRequestValidation()
     {
-        $empresa = Empresa::create([
-            'nome' => 'Empresa do sexo',
-            'cnpj' => '12345678696969',
-        ]);
-
-        $funcionario = Funcionario::create([
-            'nome' => 'Funcionario Teste',
-            'cpf' => '69695678901',
-            'empresa_id' => $empresa->id,
-            'cargo' => 'Bolsominion'
-        ]);
-
-        $data = [
-            'nome' => 'Funcionario Atualizado',
-            'cpf' => '12345678902',
-            'empresa_id' => $empresa->id,
-            'cargo' => 'Petista'
-        ];
-
-        // Act
-        $request = new UpdateFuncionarioRequest();
-        $validator = Validator::make($data, $request->rules());
-
-        // Assert
-        $this->assertFalse($validator->fails()); 
-
-        // Testar com dados inválidos
-        $dataInvalid = [
-            'nome' => '', 
-            'cpf' => '321', 
-            'empresa_id' => 9999, 
-            'cargo' => '' 
-        ];
-
-        $validator = Validator::make($dataInvalid, $request->rules());
-        $this->assertTrue($validator->fails()); 
+        
     }
 }

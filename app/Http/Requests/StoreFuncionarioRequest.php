@@ -29,8 +29,8 @@ class StoreFuncionarioRequest extends FormRequest
                 'string',
                 new CpfValidator()
             ],
-            'file' => 'nullable|string|mimes:jpeg,png,jpg|max:2048',
-            'dataDeNascimento' => 'nullable|string|max:20',
+            'file' => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
+            'dataDeNascimento' => 'required|string|max:20',
             'empresa_id' => 'required|exists:empresas,id', 
             'cargo' => 'required|string|max:255', 
         ];
