@@ -22,7 +22,7 @@ class StoreUpdateRequestsTest extends TestCase
         ////////// FUNCIONÁRIO //////////
        $funcionario = Funcionario::factory()->create();
 
-        $this->assertNotNull($funcionario->id, 'O ID do funcionário não deve ser nulo.');
+        $this->assertNotNull($funcionario->id, 'O id do funcionário não deve ser nulo.');
         
         $this->assertIsString($funcionario->cpf, 'O CPF deve ser uma string.');
         $this->assertEquals(11, strlen($funcionario->cpf), 'O CPF deve ter 11 dígitos.');
@@ -49,6 +49,31 @@ class StoreUpdateRequestsTest extends TestCase
 
     public function testUpdateFuncionarioRequestValidation()
     {
-        
+        $empresa = Empresa::factory()->create();
+        $funcionario = Funcionario::factory()->create([
+            'empresa_id' => $empresa->id,
+        ]);
+
+        $updatedData = [
+            'nome' => 'Nome Atualizado',
+            'cpf' => '12345678901', 
+            'dataDeNascimento' => '1990-01-01',
+            'file' => null, 
+            'empresa_id' => $empresa->id,
+            'cargo' => 'Cargo Atualizado',
+        ];
+
+        $response = $this->put(route('funcionarios.update', $funcionario), $updatedData);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas('funcionarios', [
+            'id' => $funcionario->id,
+            'nome' => $updatedData['nome'],
+            'cpf' => $updatedData['cpf'],
+            'dataDeNascimento' => $updatedData['dataDeNascimento'],
+            'empresa_id' => $updatedData['empresa_id'],
+            'cargo' => $updatedData['cargo'],
+        ], 'sqlite');
     }
 }

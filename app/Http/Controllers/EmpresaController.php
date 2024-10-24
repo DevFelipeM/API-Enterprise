@@ -11,8 +11,8 @@ use Illuminate\Http\JsonResponse;
 
 
 class EmpresaController extends Controller
-{ 
-   public function index()
+{
+    public function index()
     {
         $empresa = Empresa::with('funcionarios')->paginate(5);
 
@@ -21,23 +21,25 @@ class EmpresaController extends Controller
 
     public function store(StoreEmpresaRequest $request)
     {
-        
-        $empresa = Empresa::create($request->validated()); 
 
-        return response()->json(EmpresaResource::make($empresa), 201); 
+        $empresa = Empresa::create($request->validated());
+
+        return response()->json(EmpresaResource::make($empresa), 201);
     }
 
     public function show(int $id): JsonResponse
-{
-    $empresa = Empresa::findOrFail($id);
+    {
+        $empresa = Empresa::findOrFail($id);
 
-    return response()->json(EmpresaResource::make($empresa), 200); // EmpresaResource::make($empresa) traz a formatação do elemento pelo service
-}
+        return response()->json(EmpresaResource::make($empresa), 200); // EmpresaResource::make($empresa) traz a formatação do elemento pelo service
+    }
 
     public function update(int $id, UpdateEmpresaRequest $request): JsonResponse
     {
         $empresa = Empresa::findOrFail($id);
-        $isUpdated = $empresa->update($request->validated()); // instanciei em outra variavel pois o metodo update é static 
+        $data = $request->validated();
+
+        $empresa->update($data);
 
         return response()->json(EmpresaResource::make($empresa), 200);
     }
@@ -45,8 +47,8 @@ class EmpresaController extends Controller
     public function destroy(int $id): JsonResponse
     {
         $empresa = Empresa::findOrFail($id);
-        $isDeleted = $empresa->delete(); // instanciei em outra variavel pois o metodo ""  ""  é static 
+        $isDeleted = $empresa->delete(); 
 
-        return response()->json($isDeleted, 200); 
+        return response()->json($isDeleted, 200);
     }
 }

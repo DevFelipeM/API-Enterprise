@@ -17,7 +17,6 @@ class CnpjValidator implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        // Chama o método de validação do CNPJ
         $this->validateCNPJ($attribute, $value, $fail);
     }
 

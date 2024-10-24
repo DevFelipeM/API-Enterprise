@@ -27,9 +27,7 @@ class FuncionarioController extends Controller
 
     public function store(StoreFuncionarioRequest $request)
     {
-
         $data = $request->validated();
-
 
         try {
             $file = $request->file('file');
@@ -43,7 +41,6 @@ class FuncionarioController extends Controller
         } catch (Exception $error) {
             return response()->json(['error' => $error->getMessage()]);
         }
-
         $funcionario = Funcionario::create($data);
 
         return response()->json(FuncionarioResource::make($funcionario), 201);
@@ -71,7 +68,10 @@ class FuncionarioController extends Controller
     public function update(UpdateFuncionarioRequest $request, int $id)
     {
         $funcionario = Funcionario::findOrFail($id);
-        $isUpdated = $funcionario->update($request->validated());
+        $data = $request->validated();
+
+        $funcionario->update($data);
+
         return response()->json(FuncionarioResource::make($funcionario), 200);
     }
 
@@ -79,6 +79,7 @@ class FuncionarioController extends Controller
     {
         $funcionario = Funcionario::findOrFail($id);
         $isDeleted = $funcionario->delete();
+        
         return response()->json($isDeleted, 200);
     }
 }

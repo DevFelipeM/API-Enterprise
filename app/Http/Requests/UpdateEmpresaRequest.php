@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Rules\CnpjValidator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateEmpresaRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class UpdateEmpresaRequest extends FormRequest
             'nome' => 'nullable|string|max:255',
             'cnpj' => [
                 'string',
-                'unique:empresas,cnpj,', 
+                Rule::unique('empresas')->ignore($this->route('empresa')),
                 new CnpjValidator()
             ],
         ];
@@ -40,7 +41,6 @@ class UpdateEmpresaRequest extends FormRequest
 
             'cnpj.string' => 'O CNPJ deve ser uma string.',
             'cnpj.unique' => 'O CNPJ já está em uso.',
-
         ];
     }
 }

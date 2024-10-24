@@ -27,7 +27,7 @@ class EmpresaFactory extends Factory
     }
     public function generateValidCnpj(): string
 {
-    $cnpj = array_map(fn() => rand(0, 9), range(1, 12)); // Gera os primeiros 12 dígitos
+    $cnpj = array_map(fn() => rand(0, 9), range(1, 12)); 
 
     $cnpj[] = $this->calculateCnpjDigit($cnpj, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]); // Primeiro dígito verificador
     $cnpj[] = $this->calculateCnpjDigit($cnpj, [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]); // Segundo dígito verificador
